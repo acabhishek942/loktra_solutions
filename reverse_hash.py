@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+from __future__ import print_function
 import itertools
 
 def reverse_hash(hashed):
@@ -25,5 +26,5 @@ def reverse_hash(hashed):
 		
 
 
-print reverse_hash(680131659347)
-print reverse_hash(930846109532517)
+print (reverse_hash(680131659347))
+print (reverse_hash(930846109532517))
