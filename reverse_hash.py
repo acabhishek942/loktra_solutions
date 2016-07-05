@@ -1,6 +1,11 @@
+#!/usr/bin/python
+
 import itertools
 
 def reverse_hash(hashed):
+	"""
+	Reverse hash fuction for loktra hash pseudocode
+	"""
 	letters="acdegilmnoprstuw"
 
 	the_string=""
