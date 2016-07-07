@@ -22,7 +22,7 @@ def number_of_results(keyword):
 		print ("Resource temporarily unavailable. Fetching details from redirected URL")
 		page = requests.get('http://www.shopping.com/products?KW='+keyword)
 
-	print (page.content.count('quickLookItem'))
+	print ("Total number of products : " + str(page.content.count('quickLookItem')))
 	
 
 def all_results(keyword, page_number):
@@ -52,10 +52,14 @@ def all_results(keyword, page_number):
 	all_results=soup.find_all("div", id=re.compile('^quickLookItem-'))
 
 	for i in all_results:
-		product_name=i.find("a", "productName")
-		print (product_name)
-		product_price=i.find_all("span", "productPrice")
-		print (product_price)
+		product_name=i.find("a", attrs={"class":"productName"})
+
+		try:
+			print (product_name['title'])
+		except KeyError:
+
+			product_name=product_name.find("span")['title']
+			print (product_name)
 
 
 if len(sys.argv)==2:
