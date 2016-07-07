@@ -21,8 +21,14 @@ def number_of_results(keyword):
 	if page.status_code==302:
 		print ("Resource temporarily unavailable. Fetching details from redirected URL")
 		page = requests.get('http://www.shopping.com/products?KW='+keyword)
-
-	print ("Total number of products : " + str(page.content.count('quickLookItem')))
+	soup = BeautifulSoup(page.content, "lxml")
+	number_of_results = soup.find("span", attrs={'class': "numTotalResults"})
+	numTotalResults=[]
+	for i in str(number_of_results.text)[::-1]:
+		if i==' ':
+			break
+		numTotalResults.append(i)
+	print ("Total Number of Products : "+''.join(numTotalResults[::-1]))
 	
 
 def all_results(keyword, page_number):
