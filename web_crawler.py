@@ -23,12 +23,16 @@ def number_of_results(keyword):
 		page = requests.get('http://www.shopping.com/products?KW='+keyword)
 	soup = BeautifulSoup(page.content, "lxml")
 	number_of_results = soup.find("span", attrs={'class': "numTotalResults"})
-	numTotalResults=[]
-	for i in str(number_of_results.text)[::-1]:
-		if i==' ':
-			break
-		numTotalResults.append(i)
-	print ("Total Number of Products : "+''.join(numTotalResults[::-1]))
+
+	if number_of_results is not None:
+		numTotalResults=[]
+		for i in str(number_of_results.text)[::-1]:
+			if i==' ':
+				break
+			numTotalResults.append(i)
+		print ("Total Number of Products : "+''.join(numTotalResults[::-1]))
+	else:
+		print ("No products for this keyword")
 	
 
 def all_results(keyword, page_number):
@@ -57,15 +61,20 @@ def all_results(keyword, page_number):
 	soup = BeautifulSoup(page.content, "lxml")
 	all_results=soup.find_all("div", id=re.compile('^quickLookItem-'))
 
-	for i in all_results:
-		product_name=i.find("a", attrs={"class":"productName"})
+	if len(all_results) != 0:
 
-		try:
-			print (product_name['title'])
-		except KeyError:
+		for i in all_results:
+			product_name=i.find("a", attrs={"class":"productName"})
 
-			product_name=product_name.find("span")['title']
-			print (product_name)
+			try:
+				print (product_name['title'])
+			except KeyError:
+
+				product_name=product_name.find("span")['title']
+				print (product_name)
+	else:
+
+		print ("Please check keyword/page number.")
 
 
 if len(sys.argv)==2:
